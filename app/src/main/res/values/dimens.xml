@@ -9,4 +9,5 @@
     <dimen name="dimen_40dp">40dp</dimen>
     <dimen name="dimen_8dp">8dp</dimen>
     <dimen name="font_26sp">26sp</dimen>
+    <dimen name="image_medium_size">48dp</dimen>
 </resources>

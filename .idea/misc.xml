@@ -7,11 +7,15 @@
         <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/gradient_red.xml" value="0.28055555555555556" />
         <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/grey_oval.xml" value="0.28055555555555556" />
         <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/ic_camera.xml" value="0.28055555555555556" />
+        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/ic_facebook.xml" value="0.28055555555555556" />
+        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/ic_instagram.xml" value="0.28055555555555556" />
         <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1574074074074074" />
+        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/ic_left_arrow.xml" value="0.1574074074074074" />
         <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/ic_magic_wand.xml" value="0.28055555555555556" />
-        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/drawable/ic_whatsapp.xml" value="0.28055555555555556" />
+        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/layout/fragment_main.xml" value="0.25" />
-        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/layout/fragment_result.xml" value="0.3234375" />
+        <entry key="..\:/Android Projects/Photo Editor/app/src/main/res/layout/fragment_result.xml" value="0.25" />
       </map>
     </option>
   </component>
