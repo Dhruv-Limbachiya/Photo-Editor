@@ -23,4 +23,5 @@ ext {
     dagger_hilt_version = "2.38.1"
     lifecycle_version = "2.4.0-beta01"
     coroutine_version = "2.3.1"
+    nav_version = "2.3.5"
 }

@@ -6,15 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.photoeditor.R
+import com.example.photoeditor.databinding.FragmentResultBinding
 
 
 class ResultFragment : Fragment() {
 
+    lateinit var mBinding: FragmentResultBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result, container, false)
+    ): View {
+
+        mBinding = FragmentResultBinding.inflate(inflater,container,false)
+
+        return mBinding.root
     }
 }

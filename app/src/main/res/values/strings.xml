@@ -5,4 +5,5 @@
     <string name="text_tag_line">Bringing Joy of Every Photo</string>
     <string name="text_edit">Edit</string>
     <string name="text_camera">Camera</string>
+    <string name="camera_rationale">This app needs access to your camera so you can take pictures.</string>
 </resources>
