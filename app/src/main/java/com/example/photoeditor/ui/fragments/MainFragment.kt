@@ -1,29 +1,31 @@
 package com.example.photoeditor.ui.fragments
 
-import android.Manifest
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.dsphotoeditor.sdk.activity.DsPhotoEditorActivity
+import com.dsphotoeditor.sdk.utils.DsPhotoEditorConstants
 import com.example.photoeditor.databinding.FragmentMainBinding
 import com.example.photoeditor.utils.getTempFileUri
 
-class MainFragment : Fragment(){
+class MainFragment : Fragment() {
 
     lateinit var mBinding: FragmentMainBinding
 
-    private var mUri : Uri? = null
+    private var mUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        mBinding = FragmentMainBinding.inflate(inflater,container,false)
+        mBinding = FragmentMainBinding.inflate(inflater, container, false)
 
         mBinding.ivEdit.setOnClickListener {
             launchGallery()
@@ -51,19 +53,54 @@ class MainFragment : Fragment(){
         cameraLauncher.launch(mUri) // Launch camera with the temp uri.
     }
 
-    // Content Launcher.
-    private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            Toast.makeText(requireContext(),uri.toString(),Toast.LENGTH_SHORT).show()
-        }
-    }
 
-    // Camera Launcher.
-    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
-        if(isSuccess) {
-            mUri?.let {
-                Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_SHORT).show()
+    // Content Launcher.
+    private val selectImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                launchPhotoEditor(it)
             }
         }
+
+    // Camera Launcher.
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+            if (isSuccess) {
+                mUri?.let {
+                    launchPhotoEditor(it)
+                }
+            }
+        }
+
+    // DS Editor Launcher
+    private val photoEditorLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result?.data?.let {
+                findNavController().navigate(
+                    MainFragmentDirections.actionMainFragmentToResultFragment(
+                        it.data.toString()
+                    )
+                )
+            }
+        }
+
+    /**
+     * Method will launch the DS Editor Activity with given uri as data.
+     */
+    private fun launchPhotoEditor(uri: Uri) {
+        val photoEditorIntent = Intent(requireContext(), DsPhotoEditorActivity::class.java)
+        photoEditorIntent.data = uri
+        photoEditorIntent.putExtra(
+            DsPhotoEditorConstants.DS_PHOTO_EDITOR_OUTPUT_DIRECTORY,
+            "PHOTO EDITOR"
+        );
+        val toolsToHide =
+            intArrayOf(DsPhotoEditorActivity.TOOL_ORIENTATION)
+        photoEditorIntent.putExtra(
+            DsPhotoEditorConstants.DS_PHOTO_EDITOR_TOOLS_TO_HIDE,
+            toolsToHide
+        )
+        photoEditorLauncher.launch(photoEditorIntent)
     }
+
 }
