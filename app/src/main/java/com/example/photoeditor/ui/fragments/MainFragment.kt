@@ -13,12 +13,20 @@ import com.dsphotoeditor.sdk.activity.DsPhotoEditorActivity
 import com.dsphotoeditor.sdk.utils.DsPhotoEditorConstants
 import com.example.photoeditor.databinding.FragmentMainBinding
 import com.example.photoeditor.utils.getTempFileUri
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 
 class MainFragment : Fragment() {
 
     lateinit var mBinding: FragmentMainBinding
 
     private var mUri: Uri? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Initialize MobileAds SDK.
+        MobileAds.initialize(requireContext()) {}
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +43,11 @@ class MainFragment : Fragment() {
             launchCamera()
         }
 
+        loadAds()
+
         return mBinding.root
     }
+
 
     /**
      * Method will launch Content Launcher to choose images.
@@ -53,6 +64,13 @@ class MainFragment : Fragment() {
         cameraLauncher.launch(mUri) // Launch camera with the temp uri.
     }
 
+    /**
+     * Load the test ads.
+     */
+    private fun loadAds() {
+        val adRequest = AdRequest.Builder().build()
+        mBinding.adView.loadAd(adRequest)
+    }
 
     // Content Launcher.
     private val selectImageLauncher =

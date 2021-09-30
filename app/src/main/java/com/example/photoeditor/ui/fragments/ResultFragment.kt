@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,11 @@ import com.example.photoeditor.databinding.FragmentResultBinding
 import com.example.photoeditor.utils.Constants.FB_PACKAGE_NAME
 import com.example.photoeditor.utils.Constants.INSTA_PACKAGE_NAME
 import com.example.photoeditor.utils.Constants.WHATSAPP_PACKAGE_NAME
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 
 class ResultFragment : Fragment() {
@@ -24,6 +30,14 @@ class ResultFragment : Fragment() {
     private val args: ResultFragmentArgs by navArgs()
 
     lateinit var intent: Intent
+
+    private var mInterstitialAd: InterstitialAd? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +52,29 @@ class ResultFragment : Fragment() {
 
         eventListeners(uri)
 
+        // Initialize MobileAds SDK.
+        MobileAds.initialize(requireContext()) {}
+
+        // Load full screen ads
+        InterstitialAd.load(
+            requireContext(),
+            "ca-app-pub-3940256099942544~3347511713",
+            AdRequest.Builder().build(),
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    super.onAdFailedToLoad(p0)
+                    Log.i("ResultFragment", p0?.message)
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    super.onAdLoaded(interstitialAd)
+                    Log.i("ResultFragment", "Ad was loaded.")
+                    mInterstitialAd = interstitialAd
+                }
+            })
+
+        mInterstitialAd?.show(requireActivity())
+
         return mBinding.root
     }
 
@@ -46,7 +83,7 @@ class ResultFragment : Fragment() {
      */
     private fun eventListeners(uri: String) {
         mBinding.ivShare.setOnClickListener {
-            shareImage(INSTA_PACKAGE_NAME, "Instagram", uri,true)
+            shareImage(INSTA_PACKAGE_NAME, "Instagram", uri, true)
         }
 
         mBinding.ivWhatsapp.setOnClickListener {
@@ -83,7 +120,7 @@ class ResultFragment : Fragment() {
 
         try {
             if (isDefaultShare) {
-                startActivity(Intent.createChooser(intent,"Share image"))
+                startActivity(Intent.createChooser(intent, "Share image"))
             } else {
                 startActivity(intent)
             }
