@@ -16,9 +16,7 @@ import com.example.photoeditor.databinding.FragmentResultBinding
 import com.example.photoeditor.utils.Constants.FB_PACKAGE_NAME
 import com.example.photoeditor.utils.Constants.INSTA_PACKAGE_NAME
 import com.example.photoeditor.utils.Constants.WHATSAPP_PACKAGE_NAME
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
@@ -53,12 +51,12 @@ class ResultFragment : Fragment() {
         eventListeners(uri)
 
         // Initialize MobileAds SDK.
-        MobileAds.initialize(requireContext()) {}
+        MobileAds.initialize(requireActivity()) {}
 
         // Load full screen ads
         InterstitialAd.load(
-            requireContext(),
-            "ca-app-pub-3940256099942544~3347511713",
+            requireActivity(),
+            "ca-app-pub-3940256099942544/1033173712",
             AdRequest.Builder().build(),
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(p0: LoadAdError) {
@@ -69,11 +67,9 @@ class ResultFragment : Fragment() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     super.onAdLoaded(interstitialAd)
                     Log.i("ResultFragment", "Ad was loaded.")
-                    mInterstitialAd = interstitialAd
+                    interstitialAd.show(requireActivity())
                 }
             })
-
-        mInterstitialAd?.show(requireActivity())
 
         return mBinding.root
     }
